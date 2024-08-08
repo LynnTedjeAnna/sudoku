@@ -5,30 +5,34 @@
 #include "game.hpp"
 #include "board.hpp"
 
+//todo: all ui in game class
+
 void Game::start() {
-    initialize();
-    end();
+    printf("welcome to sudoku \n");
+
 }
 
 void Game::initialize() {
-    printf("welcome to sudoku \n");
-    game_cat(); //todo: functionality
-    //todo
-}
 
-void Game::game_cat() {
+
+    //category(); //todo: functionality later
+}
+//todo: finish later in project
+void Game::category() {
     //todo: make difficulty categories, easy, medium, hard
     //later maybe different kind of sudoku games
+    //todo: use category variable for game
+
     do {
         printf("\nChoose your game category: \n"
                "1) easy\n"
                "2) medium\n"
                "3) hard\n"
         );
-        scanf("%d", &category);
-    } while (category >= 4);        //loop if choice is not possible
+        scanf("%d", &choice);
+    } while (choice >= 4);        //loop if choice is not possible
 }
-//todo: use category variable for game
+
 
 //todo: make bool?
 void Game::end() {

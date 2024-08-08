@@ -18,14 +18,14 @@ public:
     void initialize();
 
     //Methode to choose game category
-    void game_cat();
+    void category();
 
     //Methode to end the game
     void end();
 
 private:
-    uint32_t category; //variable for game category input
-    uint32_t replay; //variable for to replay
+    uint8_t choice; //variable for game category input
+    uint32_t replay; //variable for re-play
 
 };
 

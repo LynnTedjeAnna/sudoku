@@ -1,16 +1,13 @@
 #include <iostream>
 #include <print>
 #include "game.hpp"
+#include "board.hpp"
 
 // Create instances of the classes
 Game game;
+Board board;
 
 int main() {
-
-    while(true){
-        //start the game
-        game.start();
-    }
-
+    board.print();
     return 0;
 }
