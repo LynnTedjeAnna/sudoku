@@ -5,9 +5,28 @@
 
 // Create instances of the classes
 Game game;
-Board board;
 
 int main() {
-    board.print();
+    Allowed a, b, c;
+
+    a.one = 0;
+    a.four = 0;
+
+    b.eight = 0;
+    b.nine = 0;
+
+    c.three = 0;
+    c.six = 0;
+
+    Allowed res = a & b & c;
+
+
+    for (uint8_t i = 1; i <= 9; i++) {
+        printf("%d\n", res.get(i));
+    }
+
+    for(;;);        //infinite loop for debugging
+
+    //game.initialize();
     return 0;
 }

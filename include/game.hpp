@@ -11,9 +11,6 @@ public:
     //constructor
     Game() = default;
 
-    //Methode for game
-    void start();
-
     //Methode to start the game
     void initialize();
 
@@ -21,12 +18,10 @@ public:
     void category();
 
     //Methode to end the game
-    void end();
+    uint8_t end();
 
 private:
     uint8_t choice; //variable for game category input
-    uint32_t replay; //variable for re-play
-
 };
 
 #endif //SUDOKU_GAME_HPP

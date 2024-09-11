@@ -45,11 +45,16 @@ void Board::print() {
     printf("  —————————————————————————————————\n");
 }
 
-
 void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc) {
     *xb = x / 3;  // Determine the block number in the x-direction (0, 1, or 2)
     *yb = y / 3;  // Determine the block number in the y-direction (0, 1, or 2)
 
     *xc = x % 3;   // Determine the cell number within the block in the x-direction (0, 1, or 2)
     *yc = y % 3;   // Determine the cell number within the block in the y-direction (0, 1, or 2)
+}
+
+void Board::generate() {
+
+
+
 }
