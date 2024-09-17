@@ -39,19 +39,6 @@ public:
         *((uint16_t*)(&res)) = th & ot;
         return res;
     }
-
-    uint8_t get(uint8_t index) {
-        //todo: if index > 8...
-        uint16_t data = *((uint16_t*)this);
-        // first index is 0
-        return (data >> index) & 1;                         // Shift right by 'index' and mask with 1 to get the bit at 'index'
-    }
-
-    void set(uint8_t index, uint8_t val) {
-        uint16_t data = *((uint16_t*)this);                 // Read the current 16-bit value from the object
-        data = ((data & ~(1 << index)) | (val << index));   // Clear the bit at the specified index and then set it to 'val'
-        *((uint16_t*)this) = data;                          //Write the modified value back to the object's memory
-    }
 };
 
 class Block {
@@ -75,11 +62,20 @@ public:
     void print();
     void convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc);
 
+    uint8_t get(uint8_t x, uint8_t y);
+    void set(uint8_t x, uint8_t y, uint8_t val);
+
     //Methode to generate board
     void generate();
+    uint8_t random_num_gen();  //generate random number from 1-9
+    uint8_t check_number(uint8_t x, uint8_t y, uint8_t value);
+
+    bool fill_board(int x, int y);
+
 
 private:
     Block blocks[3][3];
+    uint8_t random_number;
 };
 
 

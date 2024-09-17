@@ -7,6 +7,9 @@
 Game game;
 
 int main() {
+    // Providing a seed value
+    srand((unsigned) time(NULL));
+
     Allowed a, b, c;
 
     a.one = 0;
@@ -21,12 +24,14 @@ int main() {
     Allowed res = a & b & c;
 
 
-    for (uint8_t i = 1; i <= 9; i++) {
+    /*
+     * for (uint8_t i = 1; i <= 9; i++) {
         printf("%d\n", res.get(i));
+        //todo fix
     }
+    */
+    //for(;;);        //infinite loop for debugging
 
-    for(;;);        //infinite loop for debugging
-
-    //game.initialize();
+    game.initialize();
     return 0;
 }

@@ -44,17 +44,13 @@ ENTITY Allowed {
   + void set(uint8_t index, uint8_t val)
 }
 
-ENTITY HintManager {
-  + Allowed get_hint(Board board)
-}
 
 ENTITY ThemeManager {
   + void apply_theme(String theme_name)
 }
 
 Game --> Board : <<uses>>
-Board *-- Block : <<aggregates>>
-Game --> HintManager : <<uses>>
+Board o-- Block :  aggregation
 Game --> ThemeManager : <<uses>>
 
 @enduml

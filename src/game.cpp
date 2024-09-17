@@ -8,29 +8,47 @@
 // Create instances of the classes
 Board board;
 
+//todo:simplify initialize function
 void Game::initialize() {
-    do {
-        printf("Welcome to sudoku \n");
-        //category(); //todo: functionality later
-        board.print();
 
-    } while (end());                                //loop until you want to end game
-    printf("Thank you for playing :)");
+    printf("Welcome to sudoku \n");
+    menu(); //todo: functionality different difficulties later
 }
-//todo: finish later in project
-void Game::category() {
-    //todo: make difficulty categories, easy, medium, hard
-    //later maybe different kind of sudoku games
-    //todo: use category variable for game
 
+void Game::menu() {
     do {
         printf("\nChoose your game category: \n"
                "1) easy\n"
                "2) medium\n"
                "3) hard\n"
+               "0) quit\n"
         );
         scanf("%d", &choice);
-    } while (choice >= 4);        //loop if choice is not possible
+    } while (choice >  3);        //loop if choice is not possible
+    switch (choice) {
+        case 0:
+            printf("Thank you for playing :)");
+            break;
+        case 1:
+            board.generate();       //todo different cat
+            break;
+        case 2:
+            board.generate();       //todo different cat
+            break;
+        case 3:
+            board.generate();       //todo different cat
+            break;
+        default:
+            break;
+    }
+}
+
+//todo: finish later in project
+void Game::category() {
+    /* todo: make difficulty categories, easy, medium, hard
+     * later maybe different kind of sudoku games
+     * use category variable for game
+    */
 }
 
 uint8_t Game::end() {

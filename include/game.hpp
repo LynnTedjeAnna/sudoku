@@ -14,6 +14,8 @@ public:
     //Methode to start the game
     void initialize();
 
+    void menu();
+
     //Methode to choose game category
     void category();
 
