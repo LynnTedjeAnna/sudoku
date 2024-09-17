@@ -19,9 +19,6 @@ public:
     //Methode to choose game category
     void category();
 
-    //Methode to end the game
-    uint8_t end();
-
 private:
     uint8_t choice; //variable for game category input
 };

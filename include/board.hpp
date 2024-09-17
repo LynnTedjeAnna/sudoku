@@ -67,7 +67,7 @@ public:
 
     //Methode to generate board
     void generate();
-    uint8_t random_num_gen();  //generate random number from 1-9
+
     uint8_t check_number(uint8_t x, uint8_t y, uint8_t value);
 
     bool fill_board(int x, int y);
