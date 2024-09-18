@@ -5,6 +5,8 @@
 #ifndef SUDOKU_BOARD_HPP
 #define SUDOKU_BOARD_HPP
 #include <cstdint>
+#include "file.hpp"
+
 
 class Allowed {
 public:
@@ -67,13 +69,14 @@ public:
 
     //Methode to generate board
     void generate();
+    std::vector<std::vector<uint8_t>> get_board_state(); // New method to get board state
 
     uint8_t check_number(uint8_t x, uint8_t y, uint8_t value);
 
     bool fill_board(int x, int y);
 
-
 private:
+    File file;
     Block blocks[3][3];
     uint8_t random_number;
 };

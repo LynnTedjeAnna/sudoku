@@ -4,6 +4,7 @@
 #include <print>
 #include "game.hpp"
 #include "board.hpp"
+#include <ncurses.h>
 
 // Create instances of the classes
 Board board;

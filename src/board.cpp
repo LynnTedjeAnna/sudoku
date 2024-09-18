@@ -5,8 +5,10 @@
 #include <algorithm> // For std::shuffle
 #include <random>    // For std::default_random_engine
 #include "board.hpp"
+#include <ncurses.h>
 #include "print"
 
+//todo: save boards, for future use & to look back
 //todo: make interactive board
 
 uint8_t Block::get(uint8_t x, uint8_t y) { return this->cells[x][y]; }
@@ -65,6 +67,7 @@ void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc,
     *yc = y % 3;   // Determine the cell number within the block in the y-direction (0, 1, or 2)
 }
 
+//todo only saves one in txt
 void Board::generate() {
     // Clear the board by setting all cells to 0
     for (int x = 0; x < 9; x++) {
@@ -76,6 +79,23 @@ void Board::generate() {
     // Call the recursive function to fill the board
     fill_board(0, 0);
     print();
+
+    std::string path = "/Users/lynnmeindertsma/github/sudoku/board_data.txt";
+    file.save_board(get_board_state(), path);
+
+}
+
+//todo only saves one in txt
+//Returns the current state of the board as a 2D vector
+std::vector<std::vector<uint8_t>> Board::get_board_state() {
+    std::vector<std::vector<uint8_t>> board_state(9, std::vector<uint8_t>(9, 0)); // 9x9 board
+
+    for (int x = 0; x < 9; ++x) {
+        for (int y = 0; y < 9; ++y) {
+            board_state[x][y] = get(x, y); // Get the value from the board and store it in the vector
+        }
+    }
+    return board_state;
 }
 
 bool Board::fill_board(int x, int y) {
