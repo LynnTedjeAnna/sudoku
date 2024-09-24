@@ -67,7 +67,6 @@ void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc,
     *yc = y % 3;   // Determine the cell number within the block in the y-direction (0, 1, or 2)
 }
 
-//todo only saves one in txt
 void Board::generate() {
     // Clear the board by setting all cells to 0
     for (int x = 0; x < 9; x++) {
@@ -75,21 +74,17 @@ void Board::generate() {
             set(x, y, 0);
         }
     }
-
     // Call the recursive function to fill the board
     fill_board(0, 0);
     print();
 
-    std::string path = "/Users/lynnmeindertsma/github/sudoku/board_data.txt";
+    //todo only saves one in txt
+    // Returns the current state of the board as a 2D vector
     file.save_board(get_board_state(), path);
-
 }
 
-//todo only saves one in txt
-//Returns the current state of the board as a 2D vector
 std::vector<std::vector<uint8_t>> Board::get_board_state() {
     std::vector<std::vector<uint8_t>> board_state(9, std::vector<uint8_t>(9, 0)); // 9x9 board
-
     for (int x = 0; x < 9; ++x) {
         for (int y = 0; y < 9; ++y) {
             board_state[x][y] = get(x, y); // Get the value from the board and store it in the vector
@@ -98,6 +93,9 @@ std::vector<std::vector<uint8_t>> Board::get_board_state() {
     return board_state;
 }
 
+//todo: two change function
+// - use allowed type
+// - bit manipulation
 bool Board::fill_board(int x, int y) {
     // Move to the next row all columns are filled
     if (x == 9) {
@@ -109,7 +107,6 @@ bool Board::fill_board(int x, int y) {
         }
     }
 
-    // Try to place numbers 1 to 9 in the current cell
     std::vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     // A random number generator
@@ -134,10 +131,13 @@ bool Board::fill_board(int x, int y) {
         }
     }
 
+
+
     // If no number fits, return false to trigger backtracking
     return false;
 }
 
+//todo: cell class, allowed type
 uint8_t Board::check_number(uint8_t x, uint8_t y, uint8_t value) {
     // Use convert to get block and cell indices
     uint8_t block_x, block_y, cell_x, cell_y;
@@ -170,13 +170,9 @@ uint8_t Board::check_number(uint8_t x, uint8_t y, uint8_t value) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
+/*
+ * uint8_t Board::random_num_gen() {
+    // Retrieve a random number between 1 and 9
+    return random_number = (rand() % 9) + 1;
+}
+ */

@@ -1,56 +1,42 @@
 @startuml
 !define ENTITY class
 
-ENTITY Game {
-  - uint8_t choice
-  - uint32_t current_time
-  - bool is_multiplayer
-  + void initialize()
-  + void category()
-  + uint8_t end()
-  + void save_game()
-  + void load_game()
-  + void switch_theme()
-  + void track_time()
-  + void show_leaderboard()
-}
-
-ENTITY Board {
-  + void print()
-  + void convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc)
-  + void generate()
-  + bool validate()
-  - Block blocks[3][3]
+ENTITY Allowed {
+  + <b>uint16_t one : 1</b>
+  + <b>uint16_t two : 1</b>
+  + <b>uint16_t three : 1</b>
+  + <b>uint16_t four : 1</b>
+  + <b>uint16_t five : 1</b>
+  + <b>uint16_t six : 1</b>
+  + <b>uint16_t seven : 1</b>
+  + <b>uint16_t eight : 1</b>
+  + <b>uint16_t nine : 1</b>
+  + <color:green><b>Allowed()</b></color> : <color:blue>Default constructor initializes all bits to 1</color>
+  + <color:red>Allowed operator&(Allowed other)</color> : <color:blue>Performs bitwise AND with another `Allowed` instance</color>
 }
 
 ENTITY Block {
-  + uint8_t get(uint8_t x, uint8_t y)
-  + void set(uint8_t x, uint8_t y, uint8_t val)
-  - uint8_t cells[3][3]
+  + <color:green>uint8_t get(uint8_t x, uint8_t y)</color> : <color:blue>Gets the value from a specific cell</color>
+  + <color:green>void set(uint8_t x, uint8_t y, uint8_t val)</color> : <color:blue>Sets the value in a specific cell</color>
+  - <color:gray>uint8_t cells[3][3]</color> : 2D array of cells
+  + <color:green>Block()</color> : Default constructor
 }
 
-ENTITY Allowed {
-  + uint16_t one : 1
-  + uint16_t two : 1
-  + uint16_t three : 1
-  + uint16_t four : 1
-  + uint16_t five : 1
-  + uint16_t six : 1
-  + uint16_t seven : 1
-  + uint16_t eight : 1
-  + uint16_t nine : 1
-  + Allowed operator& (Allowed other)
-  + uint8_t get(uint8_t index)
-  + void set(uint8_t index, uint8_t val)
+ENTITY Board {
+  + <color:green>void print()</color> : <color:blue>Prints the board</color>
+  + <color:green>void convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc)</color> : <color:blue>Converts coordinates</color>
+  + <color:green>uint8_t get(uint8_t x, uint8_t y)</color> : <color:blue>Gets the value at coordinates</color>
+  + <color:green>void set(uint8_t x, uint8_t y, uint8_t val)</color> : <color:blue>Sets the value at coordinates</color>
+  + <color:green>void generate()</color> : <color:blue>Generates a new board state</color>
+  + <color:green>std::vector<std::vector<uint8_t>> get_board_state()</color> : <color:blue>Retrieves the current board state</color>
+  + <color:green>uint8_t check_number(uint8_t x, uint8_t y, uint8_t value)</color> : <color:blue>Checks if a number is valid</color>
+  + <color:green>bool fill_board(int x, int y)</color> : <color:blue>Fills the board</color>
+  - <color:gray>File file</color> : Reference to the file handling
+  - <color:gray>Block blocks[3][3]</color> : 2D array of blocks
+  + <color:green>Board()</color> : Default constructor
 }
 
-
-ENTITY ThemeManager {
-  + void apply_theme(String theme_name)
-}
-
-Game --> Board : <<uses>>
-Board o-- Block :  aggregation
-Game --> ThemeManager : <<uses>>
+Allowed --|> Block : inheritance
+Board o-- Block : Aggregation
 
 @enduml

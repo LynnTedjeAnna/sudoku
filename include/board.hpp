@@ -7,6 +7,7 @@
 #include <cstdint>
 #include "file.hpp"
 
+//todo: edit class diagram (cell class)
 
 class Allowed {
 public:
@@ -76,9 +77,12 @@ public:
     bool fill_board(int x, int y);
 
 private:
+    Allowed allowed_x1;
+    Allowed allowed_x2;
+    Allowed allowed_x3;
     File file;
     Block blocks[3][3];
-    uint8_t random_number;
+    std::string path = "/Users/lynnmeindertsma/github/sudoku/board_data.txt";
 };
 
 

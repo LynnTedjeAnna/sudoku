@@ -3,11 +3,12 @@ project(sudoku)
 
 set(CMAKE_CXX_STANDARD 26)
 
-include_directories(include)
+include_directories(include src)
 
 add_executable(sudoku src/main.cpp
         src/board.cpp
-        include/board.hpp
         src/game.cpp
-        include/game.hpp
-        src/file.cpp)
+        src/file.cpp
+        include/board.hpp
+        include/file.hpp
+        include/game.hpp)

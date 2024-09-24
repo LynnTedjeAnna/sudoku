@@ -10,7 +10,7 @@ void File::save_board(const std::vector<std::vector<uint8_t>>& board_data, const
         // Loop through the board data and write it to the file
         for (const auto& row : board_data) {
             for (const auto& cell : row) {
-                output_file << static_cast<int>(cell) << " "; // Write each cell value
+                output_file << static_cast<int>(cell) << " ";
             }
             output_file << "\n"; // Newline after each row
         }
