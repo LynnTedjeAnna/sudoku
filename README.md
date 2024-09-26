@@ -19,3 +19,9 @@ exceptions:
 
 streams:
  * save and load game state
+
+># Build
+> ```shell
+> g++ -Iinclude -std=c++11 src/main.cpp src/board.cpp src/file.cpp src/game.cpp -o main -O0 -g -w
+> ./main
+> 

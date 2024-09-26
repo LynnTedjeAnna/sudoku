@@ -8,6 +8,7 @@
 #include "file.hpp"
 
 //todo: edit class diagram (cell class)
+//-----------Class Allowed---------------------------------------------------------------------------------------------------
 
 class Allowed {
 public:
@@ -34,7 +35,6 @@ public:
         // '(uint16_t*)' casts the 'this' pointer to allow the data of this instance to be manipulated as an uint16_t
         *((uint16_t*)this) = 0xFFFF;
     }
-
     Allowed operator&(Allowed other) {
         Allowed res;
         uint16_t th = *((uint16_t*)this);
@@ -43,6 +43,21 @@ public:
         return res;
     }
 };
+
+//-----------Class Cell---------------------------------------------------------------------------------------------------
+
+//todo: 9 possibilities, one allowed type for what's possible in cell
+class Cell{
+public:
+    Cell() = default;
+
+    uint16_t get();
+
+private:
+Allowed allowed;
+};
+
+//-----------Class Block---------------------------------------------------------------------------------------------------
 
 class Block {
 public:
@@ -56,25 +71,24 @@ private:
     uint8_t cells[3][3];
 };
 
+//-----------Class Board---------------------------------------------------------------------------------------------------
+
 class Board {
 public:
     //constructor
     Board() = default;
 
-    //Methode to print board
-    void print();
+    void print();                                           //Methode to print board
     void convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc);
-
     uint8_t get(uint8_t x, uint8_t y);
     void set(uint8_t x, uint8_t y, uint8_t val);
-
-    //Methode to generate board
-    void generate();
-    std::vector<std::vector<uint8_t>> get_board_state(); // New method to get board state
-
+    void generate();                                        //Methode to generate board
+    std::vector<std::vector<uint8_t>> get_board_state();    //Method to get board state
     uint8_t check_number(uint8_t x, uint8_t y, uint8_t value);
-
     bool fill_board(int x, int y);
+
+    //todo
+    uint8_t random_num_gen();
 
 private:
     Allowed allowed_x1;
