@@ -11,6 +11,12 @@
 //todo: save boards, for future use & to look back
 //todo: make interactive board
 
+uint16_t Cell::get() {
+    //todo: get possible input for cell? allowed
+    return 0;
+}
+
+//todo: convert?
 uint8_t Block::get(uint8_t x, uint8_t y) { return this->cells[x][y]; }
 void Block::set(uint8_t x, uint8_t y, uint8_t val) { this->cells[x][y] = val; }
 
@@ -170,9 +176,8 @@ uint8_t Board::check_number(uint8_t x, uint8_t y, uint8_t value) {
 }
 
 
-/*
- * uint8_t Board::random_num_gen() {
+uint8_t Board::random_num_gen() {
     // Retrieve a random number between 1 and 9
+    uint8_t random_number;
     return random_number = (rand() % 9) + 1;
 }
- */

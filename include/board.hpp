@@ -47,14 +47,13 @@ public:
 //-----------Class Cell---------------------------------------------------------------------------------------------------
 
 //todo: 9 possibilities, one allowed type for what's possible in cell
-class Cell{
+class Cell {
 public:
     Cell() = default;
 
     uint16_t get();
 
 private:
-Allowed allowed;
 };
 
 //-----------Class Block---------------------------------------------------------------------------------------------------
