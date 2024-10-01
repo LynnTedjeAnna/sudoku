@@ -3,11 +3,9 @@
 //
 #include <print>
 #include "game.hpp"
-#include "board.hpp"
 #include <ncurses.h>
 
-// Create instances of the classes
-Board board;
+
 
 void Game::initialize() {
     printf("Welcome to sudoku \n");
@@ -15,6 +13,7 @@ void Game::initialize() {
 }
 
 void Game::menu() {
+    uint8_t choice; //variable for game category input
     do {
         printf("\nChoose your game category: \n"
                "1) easy\n"

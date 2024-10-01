@@ -4,6 +4,7 @@
 
 #ifndef SUDOKU_GAME_HPP
 #define SUDOKU_GAME_HPP
+#include "board.hpp"
 
 
 class Game{
@@ -20,7 +21,7 @@ public:
     void category();
 
 private:
-    uint8_t choice; //variable for game category input
+    Board board;
 };
 
 #endif //SUDOKU_GAME_HPP

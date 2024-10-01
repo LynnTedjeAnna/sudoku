@@ -11,24 +11,63 @@
 //todo: save boards, for future use & to look back
 //todo: make interactive board
 
-uint16_t Cell::get() {
-    //todo: get possible input for cell? allowed
-    return 0;
+//todo if return false(-1) do something were in board called
+// uint8_t random_allowed()
+
+//todo: make clear function for allowed type, insert in function
+// todo: create disallow function allowed type, what cannot be filled
+//todo: fix allowed type, change value of allowed after num gen set
+
+
+//-----------Class Cell---------------------------------------------------------------------------------------------------
+uint8_t Cell::get() {
+    return this->value;
+}
+void Cell::set(uint8_t val) {
+    this->value = val;
 }
 
-//todo: convert?
-uint8_t Block::get(uint8_t x, uint8_t y) { return this->cells[x][y]; }
-void Block::set(uint8_t x, uint8_t y, uint8_t val) { this->cells[x][y] = val; }
 
+//-----------Class Block---------------------------------------------------------------------------------------------------
+uint8_t Block::get(uint8_t x, uint8_t y) { return this->cells[x][y].get(); }
+void Block::set(uint8_t x, uint8_t y, uint8_t val) { this->cells[x][y].set(val); }
+
+
+//-----------Class Board---------------------------------------------------------------------------------------------------
 uint8_t Board::get(uint8_t x, uint8_t y) {
     uint8_t block_x, block_y, cell_x, cell_y;
     convert(x, y, &block_x, &block_y, &cell_x, &cell_y);
     return blocks[block_x][block_y].get(cell_x, cell_y);
 }
-void Board::set(uint8_t x, uint8_t y, uint8_t val) {
-    uint8_t block_x, block_y, cell_x, cell_y;
-    convert(x, y, &block_x, &block_y, &cell_x, &cell_y);
-    blocks[block_x][block_y].set(cell_x, cell_y, val);
+
+
+void Board::generate() {
+    //todo: make clear function allowed type, insert in function
+
+    // todo: create disallow function allowed type, what cannot be filled
+
+    for (uint8_t y = 0; y < 9; y++) {
+        for (uint8_t x = 0; x < 9; x++) {
+            uint8_t yb, xb, yc, xc;
+            convert(x, y, &xb, &yb, &xc, &yc);
+            Allowed allowed = blocks[xb][yb].allowed & allowed_x[x] & allowed_y[y];
+            uint8_t num = allowed.random_allowed();
+
+            //todo: fix allowed type, change value of allowed after num gen set
+
+            blocks[xb][yb].set(xc, yc, num);
+        }
+    }
+}
+
+std::vector<std::vector<uint8_t>> Board::get_board_state() {
+    std::vector<std::vector<uint8_t>> board_state(9, std::vector<uint8_t>(9, 0)); // 9x9 board
+    for (int x = 0; x < 9; ++x) {
+        for (int y = 0; y < 9; ++y) {
+            board_state[x][y] = get(x, y); // Get the value from the board and store it in the vector
+        }
+    }
+    return board_state;
 }
 
 void Board::print() {
@@ -65,119 +104,12 @@ void Board::print() {
     printf("  —————————————————————————————————\n");
 }
 
+
 void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc) {
     *xb = x / 3;  // Determine the block number in the x-direction (0, 1, or 2)
     *yb = y / 3;  // Determine the block number in the y-direction (0, 1, or 2)
-
     *xc = x % 3;   // Determine the cell number within the block in the x-direction (0, 1, or 2)
     *yc = y % 3;   // Determine the cell number within the block in the y-direction (0, 1, or 2)
 }
 
-void Board::generate() {
-    // Clear the board by setting all cells to 0
-    for (int x = 0; x < 9; x++) {
-        for (int y = 0; y < 9; y++) {
-            set(x, y, 0);
-        }
-    }
-    // Call the recursive function to fill the board
-    fill_board(0, 0);
-    print();
 
-    //todo only saves one in txt
-    // Returns the current state of the board as a 2D vector
-    file.save_board(get_board_state(), path);
-}
-
-std::vector<std::vector<uint8_t>> Board::get_board_state() {
-    std::vector<std::vector<uint8_t>> board_state(9, std::vector<uint8_t>(9, 0)); // 9x9 board
-    for (int x = 0; x < 9; ++x) {
-        for (int y = 0; y < 9; ++y) {
-            board_state[x][y] = get(x, y); // Get the value from the board and store it in the vector
-        }
-    }
-    return board_state;
-}
-
-//todo: two change function
-// - use allowed type
-// - bit manipulation
-bool Board::fill_board(int x, int y) {
-    // Move to the next row all columns are filled
-    if (x == 9) {
-        x = 0;
-        y++;
-        // When all rows are filled, the board is complete
-        if (y == 9) {
-            return true;
-        }
-    }
-
-    std::vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-    // A random number generator
-    std::random_device rd;
-    std::default_random_engine rng(rd());
-
-    // Shuffle the numbers
-    std::shuffle(nums.begin(), nums.end(), rng);
-
-    for (int i = 0; i < 9; i++) {
-        int value = nums[i];
-        if (check_number(x, y, value)) {
-            set(x, y, value);
-
-            // Recursively attempt to fill the rest of the board
-            if (fill_board(x + 1, y)) {
-                return true;
-            }
-
-            // If it fails, reset the cell
-            set(x, y, 0);
-        }
-    }
-
-
-
-    // If no number fits, return false to trigger backtracking
-    return false;
-}
-
-//todo: cell class, allowed type
-uint8_t Board::check_number(uint8_t x, uint8_t y, uint8_t value) {
-    // Use convert to get block and cell indices
-    uint8_t block_x, block_y, cell_x, cell_y;
-    convert(x, y, &block_x, &block_y, &cell_x, &cell_y);
-
-    // Check for duplicates in the row
-    for (int i = 0; i < 9; i++) {
-        if (get(i, y) == value) {
-            return 0;
-        }
-    }
-
-    // Check for duplicates in the column
-    for (int i = 0; i < 9; i++) {
-        if (get(x, i) == value) {
-            return 0;
-        }
-    }
-
-    // Check for duplicates within the block
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            if (blocks[block_x][block_y].get(i, j) == value) {
-                return 0;
-            }
-        }
-    }
-
-    return 1; // No duplicates found; number is valid
-}
-
-
-uint8_t Board::random_num_gen() {
-    // Retrieve a random number between 1 and 9
-    uint8_t random_number;
-    return random_number = (rand() % 9) + 1;
-}
