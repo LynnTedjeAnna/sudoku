@@ -1,7 +1,6 @@
 #include <iostream>
 #include <print>
 #include "game.hpp"
-#include "board.hpp"
 
 // Create instances of the classes
 Game game;

@@ -2,50 +2,30 @@
 // Created by Lynn Meindertsma on 02/08/2024.
 //
 
-#include <algorithm> // For std::shuffle
-#include <random>    // For std::default_random_engine
-#include "board.hpp"
 #include <ncurses.h>
-#include "print"
+#include <iostream>
+#include "board.hpp"
 
-//todo: save boards, for future use & to look back
 //todo: make interactive board
 
-//todo if return false(-1) do something were in board called
-// uint8_t random_allowed()
-
-//todo: make clear function for allowed type, insert in function
-// todo: create disallow function allowed type, what cannot be filled
-//todo: fix allowed type, change value of allowed after num gen set
-
-
-//-----------Class Cell---------------------------------------------------------------------------------------------------
-uint8_t Cell::get() {
-    return this->value;
-}
-void Cell::set(uint8_t val) {
-    this->value = val;
-}
-
-
-//-----------Class Block---------------------------------------------------------------------------------------------------
-uint8_t Block::get(uint8_t x, uint8_t y) { return this->cells[x][y].get(); }
-void Block::set(uint8_t x, uint8_t y, uint8_t val) { this->cells[x][y].set(val); }
-
-
-//-----------Class Board---------------------------------------------------------------------------------------------------
 uint8_t Board::get(uint8_t x, uint8_t y) {
     uint8_t block_x, block_y, cell_x, cell_y;
     convert(x, y, &block_x, &block_y, &cell_x, &cell_y);
     return blocks[block_x][block_y].get(cell_x, cell_y);
 }
 
-
 void Board::generate() {
-    //todo: make clear function allowed type, insert in function
-
-    // todo: create disallow function allowed type, what cannot be filled
-
+    //clear all allowed types, set to 0xFF
+    for (uint8_t i = 0; i < 9; i++) {
+        allowed_x[i].clear_allowed();
+        allowed_y[i].clear_allowed();
+    }
+    for (uint8_t y = 0; y < 3; y++) {
+        for (uint8_t x = 0; x < 3; x++) {
+            blocks[x][y].allowed.clear_allowed();
+        }
+    }
+    
     for (uint8_t y = 0; y < 9; y++) {
         for (uint8_t x = 0; x < 9; x++) {
             uint8_t yb, xb, yc, xc;
@@ -53,11 +33,22 @@ void Board::generate() {
             Allowed allowed = blocks[xb][yb].allowed & allowed_x[x] & allowed_y[y];
             uint8_t num = allowed.random_allowed();
 
-            //todo: fix allowed type, change value of allowed after num gen set
+            if (num == 0xFF){           //if return false(-1), unsigned->255 (FF)
+                //print();
+                std::cerr << "\nYou made a big mistake :(\n";       ///exception
+                return generate();
+            }
+
+            blocks[xb][yb].allowed.set(num, 0);
+            allowed_x[x].set(num, 0);
+            allowed_y[y].set(num, 0);
 
             blocks[xb][yb].set(xc, yc, num);
         }
     }
+
+    print();
+    file.save_board(get_board_state(), path);           //streams
 }
 
 std::vector<std::vector<uint8_t>> Board::get_board_state() {
@@ -104,7 +95,6 @@ void Board::print() {
     printf("  —————————————————————————————————\n");
 }
 
-
 void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc, uint8_t* yc) {
     *xb = x / 3;  // Determine the block number in the x-direction (0, 1, or 2)
     *yb = y / 3;  // Determine the block number in the y-direction (0, 1, or 2)
@@ -112,4 +102,6 @@ void Board::convert(uint8_t x, uint8_t y, uint8_t* xb, uint8_t* yb, uint8_t* xc,
     *yc = y % 3;   // Determine the cell number within the block in the y-direction (0, 1, or 2)
 }
 
-
+void Board::reset() {
+    //todo
+}

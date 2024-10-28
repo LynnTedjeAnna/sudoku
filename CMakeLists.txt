@@ -11,4 +11,7 @@ add_executable(sudoku src/main.cpp
         src/file.cpp
         include/board.hpp
         include/file.hpp
-        include/game.hpp)
+        include/game.hpp
+        src/cell.cpp
+        src/block.cpp
+        include/grid.hpp)

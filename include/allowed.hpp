@@ -43,16 +43,41 @@ public:
         return res;
     }
 
-    //todo if return false(-1) do something were called, unsigned->255 (FF)
+    void clear_allowed() {
+        // Set all bits to 1 (all allowed)
+        *((uint16_t*)this) |= 0xFFFF;
+    }
+
+    // Setter to allow or disallow a specific digit (1-9)
+    void set(uint8_t num, bool if_allowed) {
+        if (num < 1 || num > 9) return;  // Invalid number
+
+        uint16_t mask = (1 << (num - 1));
+        if (if_allowed) {
+            *((uint16_t*)this) |= mask;  // Set the bit to 1
+        } else {
+            *((uint16_t*)this) &= ~mask;  // Clear the bit
+        }
+    }
+
+    // Getter to check if a specific digit (1-9) is allowed
+    bool is_allowed(uint8_t num) const {
+        if (num < 1 || num > 9) return false;  // Invalid number
+
+        uint16_t mask = (1 << (num - 1));
+        return *((uint16_t*)this) & mask;
+    }
+
     uint8_t random_allowed() {
         uint16_t data = *((uint16_t*)this);
         if (!(data & 0b111111111)) { return -1; }   // nothing allowed
         uint8_t num;
         do {
-            num = (rand() % 9) + 1;
+            num = (rand() % 9);
         } while (!(data & (1 << num)));             // todo: use getter here!!
-        return num;
+        return num + 1;
     }
+
 };
 
 
